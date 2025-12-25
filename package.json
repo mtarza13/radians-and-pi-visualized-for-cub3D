@@ -1,5 +1,5 @@
 {
-  "name": "raycasting-math:-radians-&-movement",
+  "name": "cub3d-masterclass:-the-graphics-guide",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "katex": "^0.16.11",
     "react-dom": "^19.2.3",
     "react": "^19.2.3",
     "lucide-react": "^0.562.0"

@@ -1,5 +1,6 @@
+
 {
-  "name": "Raycasting Math: Radians & Movement",
-  "description": "An interactive visual guide for cub3D developers to master radians, π, and the trigonometry behind 2D raycasting and movement.",
+  "name": "cub3D Masterclass: The Graphics Guide",
+  "description": "A comprehensive visual guide for 42 students building the cub3D raycasting engine. Covers DDA, vector math, and MLX memory.",
   "requestFramePermissions": []
 }

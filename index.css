@@ -1,0 +1,24 @@
+/* Global styles kept minimal; Tailwind is loaded via CDN in `index.html`. */
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* KaTeX: keep math readable on dark backgrounds */
+.katex {
+  font-size: 1.05em;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
