@@ -13,6 +13,11 @@ import MlxMemoryLayout from '../pages/MlxMemoryLayout';
 import MovementRotationCollision from '../pages/MovementRotationCollision';
 import FullFramePipeline from '../pages/FullFramePipeline';
 
+import LodeRaycastingI from '../pages/LodeRaycastingI';
+import LodeRaycastingII from '../pages/LodeRaycastingII';
+import LodeRaycastingIII from '../pages/LodeRaycastingIII';
+import LodePerformance from '../pages/LodePerformance';
+
 import Playground from '../pages/Playground';
 import MapValidator from '../pages/MapValidator';
 
@@ -31,6 +36,10 @@ export type PageId =
   | 'mlx-memory'
   | 'movement'
   | 'pipeline'
+  | 'lode-raycasting-i'
+  | 'lode-raycasting-ii'
+  | 'lode-raycasting-iii'
+  | 'lode-performance'
   | 'playground'
   | 'map-validator';
 
@@ -152,6 +161,42 @@ export const PAGES: PageMeta[] = [
     shortTitle: 'Full Pipeline',
     keywords: ['pipeline', 'frame', 'render loop', 'mlx_put_image_to_window'],
     Component: FullFramePipeline,
+  },
+  {
+    id: 'lode-raycasting-i',
+    group: 'Lessons',
+    number: 13,
+    title: 'Lode Raycasting I (walls, DDA, projection)',
+    shortTitle: 'Lode I',
+    keywords: ['lode', 'raycasting', 'walls', 'dda', 'projection', 'camera plane'],
+    Component: LodeRaycastingI,
+  },
+  {
+    id: 'lode-raycasting-ii',
+    group: 'Lessons',
+    number: 14,
+    title: 'Lode Raycasting II (floor & ceiling casting)',
+    shortTitle: 'Lode II',
+    keywords: ['lode', 'floor casting', 'ceiling casting', 'scanlines', 'rowDistance'],
+    Component: LodeRaycastingII,
+  },
+  {
+    id: 'lode-raycasting-iii',
+    group: 'Lessons',
+    number: 15,
+    title: 'Lode Raycasting III (sprites + ZBuffer)',
+    shortTitle: 'Lode III',
+    keywords: ['lode', 'sprites', 'zbuffer', 'billboard', 'occlusion'],
+    Component: LodeRaycastingIII,
+  },
+  {
+    id: 'lode-performance',
+    group: 'Lessons',
+    number: 16,
+    title: 'Performance notes (cub3D practical)',
+    shortTitle: 'Performance',
+    keywords: ['performance', 'optimization', 'inner loop', 'memory', 'cache'],
+    Component: LodePerformance,
   },
   {
     id: 'playground',

@@ -91,7 +91,34 @@ for y in floor rows:
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-2xl font-bold text-white">4) The visualization (pick a scanline)</h2>
+        <h2 className="text-2xl font-bold text-white">4) Texture sampling (cell + fractional part)</h2>
+        <p className="text-slate-400 leading-relaxed">
+          Once you have the world floor point for a pixel (<code className="text-slate-200">floorX</code>, <code className="text-slate-200">floorY</code>),
+          you convert it to a texture coordinate using the fractional part inside the current cell.
+        </p>
+
+        <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 space-y-3">
+          <div className="text-xs font-black tracking-widest uppercase text-slate-500">Floor tex coord</div>
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+            <Tex block>
+              {String.raw`cellX = \lfloor floorX \rfloor\qquad cellY = \lfloor floorY \rfloor\\
+tx = \left\lfloor texW\cdot(floorX - cellX)\right\rfloor\\
+ty = \left\lfloor texH\cdot(floorY - cellY)\right\rfloor`}
+            </Tex>
+          </div>
+          <p className="text-slate-500 text-sm">
+            If <code className="text-slate-200">texW</code> and <code className="text-slate-200">texH</code> are powers of two, you’ll often see <code className="text-slate-200">tx & (texW-1)</code>.
+          </p>
+        </div>
+
+        <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 text-sm text-slate-300 leading-relaxed">
+          Ceiling can be drawn symmetrically: if you draw floor at row <code className="text-slate-200">y</code>, draw ceiling at row <code className="text-slate-200">h - y</code>
+          with the corresponding ceiling texture.
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">5) The visualization (pick a scanline)</h2>
         <p className="text-slate-400 leading-relaxed">
           Use the slider to choose a scanline. Watch how the left/right world points move and how the interpolation direction
           changes as you move away from the horizon.
