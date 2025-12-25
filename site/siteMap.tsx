@@ -1,6 +1,7 @@
 import React from 'react';
 
 import BigPicture from '../pages/BigPicture';
+import BuildSheet from '../pages/BuildSheet';
 import MapParsingLesson from '../pages/MapParsingLesson';
 import VectorsFov from '../pages/VectorsFov';
 import RayPerColumn from '../pages/RayPerColumn';
@@ -19,6 +20,7 @@ export type PageGroup = 'Lessons' | 'Tools';
 
 export type PageId =
   | 'big-picture'
+  | 'build-sheet'
   | 'map-parsing'
   | 'vectors-fov'
   | 'ray-per-column'
@@ -53,9 +55,18 @@ export const PAGES: PageMeta[] = [
     Component: BigPicture,
   },
   {
-    id: 'map-parsing',
+    id: 'build-sheet',
     group: 'Lessons',
     number: 2,
+    title: 'cub3D Build Sheet (step-by-step)',
+    shortTitle: 'Build Sheet',
+    keywords: ['checklist', 'steps', 'implementation', 'pseudocode', 'defense'],
+    Component: BuildSheet,
+  },
+  {
+    id: 'map-parsing',
+    group: 'Lessons',
+    number: 3,
     title: 'Map Parsing & Validation (closed map, spaces)',
     shortTitle: 'Map Parsing',
     keywords: ['parser', 'validation', 'closed map', 'spaces', 'NSEW'],
@@ -64,7 +75,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'vectors-fov',
     group: 'Lessons',
-    number: 3,
+    number: 4,
     title: 'Vectors: dir + camera plane (FOV)',
     shortTitle: 'Vectors & FOV',
     keywords: ['vectors', 'dir', 'plane', 'fov', 'unit circle'],
@@ -73,7 +84,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'ray-per-column',
     group: 'Lessons',
-    number: 4,
+    number: 5,
     title: 'Ray per Column: cameraX and rayDir',
     shortTitle: 'Ray per Column',
     keywords: ['cameraX', 'rayDir', 'columns', 'screen'],
@@ -82,7 +93,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'dda',
     group: 'Lessons',
-    number: 5,
+    number: 6,
     title: 'DDA Deep Dive (with step table)',
     shortTitle: 'DDA Deep Dive',
     keywords: ['dda', 'grid', 'sideDist', 'deltaDist', 'step'],
@@ -91,7 +102,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'fisheye',
     group: 'Lessons',
-    number: 6,
+    number: 7,
     title: 'perpWallDist & fish-eye fix',
     shortTitle: 'Fish-eye Fix',
     keywords: ['perpWallDist', 'fisheye', 'projection'],
@@ -100,7 +111,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'projection',
     group: 'Lessons',
-    number: 7,
+    number: 8,
     title: 'Projection and lineHeight',
     shortTitle: 'Projection',
     keywords: ['lineHeight', 'drawStart', 'drawEnd', 'screen'],
@@ -109,7 +120,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'textures',
     group: 'Lessons',
-    number: 8,
+    number: 9,
     title: 'Texture mapping (texX/texY, flipping)',
     shortTitle: 'Textures',
     keywords: ['texX', 'texY', 'texture', 'sampling', 'flip'],
@@ -118,7 +129,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'mlx-memory',
     group: 'Lessons',
-    number: 9,
+    number: 10,
     title: 'MLX memory layout (bpp, line_length)',
     shortTitle: 'MLX Memory',
     keywords: ['mlx', 'bpp', 'line_length', 'endian'],
@@ -127,7 +138,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'movement',
     group: 'Lessons',
-    number: 10,
+    number: 11,
     title: 'Movement + rotation + collision',
     shortTitle: 'Movement',
     keywords: ['movement', 'rotation', 'collision', 'WASD'],
@@ -136,7 +147,7 @@ export const PAGES: PageMeta[] = [
   {
     id: 'pipeline',
     group: 'Lessons',
-    number: 11,
+    number: 12,
     title: 'Full frame pipeline',
     shortTitle: 'Full Pipeline',
     keywords: ['pipeline', 'frame', 'render loop', 'mlx_put_image_to_window'],
