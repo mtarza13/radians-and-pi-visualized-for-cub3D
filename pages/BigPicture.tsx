@@ -1,9 +1,17 @@
 import React from 'react';
 import ASCIIDiagram from '../components/ASCIIDiagram';
 import LessonEnding from '../components/LessonEnding';
-import Math from '../components/Math';
+import Tex from '../components/Math';
+import MapValidationMini from '../components/MapValidationMini';
+import BigPictureRayViz from '../components/BigPictureRayViz';
+import DDAVisualizer from '../components/DDAVisualizer';
+import MemoryVisualizer from '../components/MemoryVisualizer';
+import MovementSim from '../components/MovementSim';
+import UnitCircle from '../components/UnitCircle';
 
 export default function BigPicture() {
+  const [angle, setAngle] = React.useState(Math.PI / 4);
+
   return (
     <div className="space-y-10 animate-in fade-in duration-500 max-w-4xl">
       <header className="space-y-3">
@@ -42,12 +50,120 @@ export default function BigPicture() {
             In classic raycasters, wall slice height is inversely proportional to distance:
           </p>
           <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
-            <Math block>{String.raw`\text{lineHeight} = \left\lfloor \frac{\text{screenH}}{\text{perpWallDist}} \right\rfloor`}</Math>
+            <Tex block>{String.raw`\text{lineHeight} = \left\lfloor \frac{\text{screenH}}{\text{perpWallDist}} \right\rfloor`}</Tex>
           </div>
           <p className="text-slate-500 text-sm">
             Key word: <code className="text-slate-200">perpWallDist</code> (distance corrected to avoid fish-eye).
           </p>
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">Map parsing & validation (why closed maps matter)</h2>
+        <p className="text-slate-400 leading-relaxed">
+          Raycasting assumes the world is a closed grid. If a walkable tile touches <strong>void</strong> (a space or out-of-bounds),
+          your DDA can “escape the map” and crash (or draw garbage).
+        </p>
+        <MapValidationMini />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">Direction vector + camera plane (FOV)</h2>
+        <p className="text-slate-400 leading-relaxed">
+          Your view is defined by two perpendicular vectors:
+          <strong> dir</strong> (where you look) and <strong>plane</strong> (the camera plane). The plane length controls FOV.
+        </p>
+
+        <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 space-y-3">
+          <div className="text-xs font-black tracking-widest uppercase text-slate-500">One ray per column</div>
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+            <Tex block>
+              {String.raw`cameraX = 2\cdot\frac{x}{w} - 1\\ rayDir = dir + plane\cdot cameraX`}
+            </Tex>
+          </div>
+          <p className="text-slate-500 text-sm">In the visualizer: slide “Column” to pick which ray you’re computing.</p>
+        </div>
+
+        <ASCIIDiagram
+          caption="dir and camera plane (perpendicular)."
+          content={`
+              plane (FOV)
+        left <----+----> right
+                 |
+                 |  dir (look)
+                 v
+                (player)
+`}
+        />
+
+        <BigPictureRayViz />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">DDA algorithm: “walk the grid”</h2>
+        <p className="text-slate-400 leading-relaxed">
+          DDA doesn’t move pixel-by-pixel. It jumps from one grid boundary to the next, always taking the nearest next intersection.
+          That’s why we track <code className="text-slate-200">sideDistX</code>/<code className="text-slate-200">sideDistY</code>
+          and add <code className="text-slate-200">deltaDistX</code>/<code className="text-slate-200">deltaDistY</code>.
+        </p>
+
+        <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 space-y-3">
+          <div className="text-xs font-black tracking-widest uppercase text-slate-500">The two key deltas</div>
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+            <Tex block>{String.raw`\Delta_x = \left|\frac{1}{rayDir_x}\right|\qquad\Delta_y = \left|\frac{1}{rayDir_y}\right|`}</Tex>
+          </div>
+          <p className="text-slate-500 text-sm">
+            Intuition: <code className="text-slate-200">\Delta_x</code> is “how much ray length to cross one vertical gridline”.
+          </p>
+        </div>
+
+        <DDAVisualizer />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">Fish-eye fix: perpendicular distance</h2>
+        <p className="text-slate-400 leading-relaxed">
+          Using the raw hit distance makes edge rays look farther (curved walls). The fix is to use the distance projected onto
+          the camera direction (classic <code className="text-slate-200">perpWallDist</code>).
+        </p>
+        <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 space-y-3">
+          <div className="text-xs font-black tracking-widest uppercase text-slate-500">Classic formula from DDA</div>
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+            <Tex block>{String.raw`perpWallDist = \begin{cases} sideDistX - \Delta_x & \text{if hit on x-side}\\ sideDistY - \Delta_y & \text{if hit on y-side}\end{cases}`}</Tex>
+          </div>
+          <p className="text-slate-500 text-sm">The chart inside the ray visualizer shows fish-eye (red) vs corrected (green).</p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">MLX images: 2D pixels stored as 1D memory</h2>
+        <p className="text-slate-400 leading-relaxed">
+          Even though you think in (x,y), MLX gives you a pointer to a flat byte buffer. You compute an offset and write bytes.
+        </p>
+        <MemoryVisualizer />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold text-white">Movement & rotation (unit circle → rotation matrix)</h2>
+        <p className="text-slate-400 leading-relaxed">
+          Movement uses <code className="text-slate-200">cos</code>/<code className="text-slate-200">sin</code> from the unit circle.
+          Rotation applies the same matrix to both the direction vector and the camera plane.
+        </p>
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          <UnitCircle angle={angle} setAngle={setAngle} />
+          <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 space-y-3">
+            <div className="text-xs font-black tracking-widest uppercase text-slate-500">Rotation matrix</div>
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+              <Tex block>{String.raw`\begin{bmatrix}x'\\y'\end{bmatrix} = \begin{bmatrix}\cos a & -\sin a\\ \sin a & \cos a\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}`}</Tex>
+            </div>
+            <p className="text-slate-500 text-sm">
+              In cub3D: rotate <code className="text-slate-200">dir</code> and <code className="text-slate-200">plane</code> by the same angle each frame.
+            </p>
+          </div>
+        </div>
+
+        <MovementSim />
       </section>
 
       <section className="space-y-4">
